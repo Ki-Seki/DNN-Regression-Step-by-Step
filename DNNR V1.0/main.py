@@ -29,7 +29,7 @@ iterations = 10 # Number of iterations
 # ─── Dataset Preparation ──────────────────────────────────────────────────────
 
 X = [random.randrange(lower, upper) for _ in range(size) ]
-Y = [td.task(X[i]) for i in range(size) ]
+Y = [td.f(X[i]) for i in range(size) ]
 
 s1, s2, s3 = round(size * split[0]), round(size * split[1]), round(size * split[2])
 train = [X[:s1], Y[:s1]]

@@ -4,6 +4,8 @@ This repo is a beginner tutorial on making DNN step by step.
 
 If we have a good command of the inside mechanism of Deep Neural Network (DNN), then we can be much better at Deep Learning frameworks with high-level abstraction, like TensorFlow, Pytorch, etc.
 
+无框架DNN，效率不考虑，DNN做regression的比较少一般是做分类。
+
 ## Goal
 
 * Use pure Python (with NumPy at most) to implement a DNN model that can fit any given mathematical function. 

@@ -6,7 +6,7 @@
  # @ Description:
  '''
 
-def task(x):  # sourcery skip: inline-immediately-returned-variable
+def f(x):
     '''
     Define your task function here. This function will be learned by the model.
     :param x: x can be any dimension

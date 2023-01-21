@@ -8,13 +8,16 @@
 
 import random
 
+import matplotlib.pyplot as plt
+from tqdm import tqdm
+
 import task_definition as td
 import util
 
 
 # ─── Hyper-parameter Setting ──────────────────────────────────────────────────
 
-random.seed()
+random.seed(1)
 
 # Dataset-related
 
@@ -25,7 +28,7 @@ split = [0.6, 0.3, 0.1]  # Train/Validate/Test splition ratio
 
 # Training-related
 
-iterations = 10000  # Number of iterations
+iterations = 100  # Number of iterations
 alpha = 0.2  # Learning rate
 
 # ─── Dataset Preparation ──────────────────────────────────────────────────────
@@ -49,11 +52,18 @@ w2_1 = random.random()  # 1st weight of 2nd layer
 w2_2 = random.random()
 b2 = random.random()    # Bias of the 2nd layer
 
+# ─── Values Need To Be Saved ──────────────────────────────────────────────────
+
+best_w1_1, best_w1_2, best_b1_1, best_b1_2, best_w2_1, best_w2_2, best_b2 = [None] * 7
+best_epoch = 0
+loss_history = [0] * iterations
+
 # ─── Training ─────────────────────────────────────────────────────────────────
 
-for epoch in range(iterations):
+pbar = tqdm(range(iterations))  # Progress bar
+for epoch in pbar:
 
-    Dw1_1, Dw1_2, Db1_1, Db1_2, Dw2_1, Dw2_2, Db2 = [0] * 7  # Initialization
+    Dw1_1, Dw1_2, Db1_1, Db1_2, Dw2_1, Dw2_2, Db2 = [0] * 7  # Initialization of accumulated variables
 
     for x, y in zip(train[0], train[1]):  # For each sample in training set
 
@@ -62,8 +72,6 @@ for epoch in range(iterations):
         a0 = x
         a1_1 = util.sigmoid(w1_1 * x + b1_1)
         a1_2 = util.sigmoid(w1_2 * x + b1_2)
-        # a1_1 = 1 / (1 + math.e ** -(w1_1 * x + b1_1))
-        # a1_2 = 1 / (1 + math.e ** -(w1_2 * x + b1_2))
         a2 = w2_1 * a1_1 + w2_2 * a1_2 + b2
         y_hat = a2
 
@@ -106,6 +114,8 @@ for epoch in range(iterations):
     Dw2_2 /= s1
     Db2 /= s1
 
+    # Update parameters
+
     w2_1 = w2_1 - alpha * Dw2_1
     w2_2 = w2_2 - alpha * Dw2_2
     b2 = b2 - alpha * Db2
@@ -125,13 +135,40 @@ for epoch in range(iterations):
         y_hat = a2
         loss += 1/2 * (y_hat - y) ** 2
     loss /= s2  # == 1/2 MSE
+    loss_history[epoch] = loss
+    del_loss = loss - (0 if epoch == 0 else loss_history[epoch-1])
 
-    print(f'{epoch + 1 = }, {loss = }')
+    # ─── Output and Drawing ───────────────────────────────────────────────
+
+    pbar.set_description(f'Epoch = {epoch:5d}, loss = {loss:.3e}, Δloss = {del_loss:.3e}')  # Progress bar
+    plt.scatter(epoch+1, loss, color='blue')
+    plt.pause(0.001)  # Make the real-time plotting possible
 
     # ─── Save Parameters Bring Best Performance ───────────────────────────
 
-    pass
+    if loss_history[epoch] < loss_history[best_epoch]:
+        best_w1_1 = w1_1
+        best_w1_2 = w1_2
+        best_b1_1 = b1_1
+        best_b1_2 = b1_2
+        best_w2_1 = w2_1
+        best_w2_2 = w2_2
+        best_b2 = b2
+        best_epoch = epoch
+print(f'The minimum loss is at epoch {best_epoch}, its loss is {loss_history[best_epoch]}')  # TODO
+plt.show()
+
 
 # ─── Testing ──────────────────────────────────────────────────────────────────
 
-pass
+loss = 0
+for x, y in zip(test[0], test[1]):
+    a0 = x
+    a1_1 = util.sigmoid(w1_1 * x + b1_1)
+    a1_2 = util.sigmoid(w1_2 * x + b1_2)
+    a2 = w2_1 * a1_1 + w2_2 * a1_2 + b2
+    y_hat = a2
+    loss += 1/2 * (y_hat - y) ** 2
+loss /= s2  # == 1/2 MSE
+
+print(f"Loss on the testing set: {loss}")

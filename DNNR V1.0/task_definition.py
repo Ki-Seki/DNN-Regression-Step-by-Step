@@ -6,11 +6,12 @@
  # @ Description:
  '''
 
-def f(x):
+def f(x):  # TODO: DividedByZero error may occur
     '''
     Define your task function here. This function will be learned by the model.
     :param x: x can be any dimension
     :return: must be a scalar
     '''
-    y = 3 * x + 5
+    import math
+    y = 1 + math.exp(x) / (math.exp(x) + 5)
     return y

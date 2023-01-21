@@ -19,10 +19,16 @@ such as $\mathbf{x}=[x_1, x_2, ..., x_m]$ and its corresponding $\mathbf{y}=[y_1
 
 the model should try to fit the function, that is $f': x \mapsto \hat{y}$, 
 
-with a relatively lower Mean Squared Error (MSE), that is $\sum_{i=1}^{m}(\hat{y_i}-y_i)^2$.
+with a relatively lower ½ Mean Squared Error (MSE) Loss, that is $\mathcal{L}=\frac{1}{2m}\sum_{i=1}^{m}(\hat{y_i}-y_i)^2$.
 
 ## Version History
 
 | Version | Network Architecture | Description            |
 | ------- | -------------------- | ---------------------- |
 | V1.0    | 2 Layers: 1 x 2 x 1  | Fit a linear function. |
+
+## Notations
+
+| Math         | Code   | Description                                          |
+| ------------ | ------ | ---------------------------------------------------- |
+| $x_{i \_ j}$ | `xi_j` | the ith weight/output of the jth layer in a network. |

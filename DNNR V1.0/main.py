@@ -7,6 +7,7 @@
  '''
 
 import random
+import time
 
 import matplotlib.pyplot as plt
 from tqdm import tqdm
@@ -31,12 +32,19 @@ split = [0.6, 0.3, 0.1]  # Train/Validate/Test splition ratio
 iterations = 100  # Number of iterations
 alpha = 0.2  # Learning rate
 
+# Debugging-related
+
+debug = False  # Debug switch
+draw = True  # Drawing switch
+duration = 0  # Pause duration after each epoch
+
 # ─── Dataset Preparation ──────────────────────────────────────────────────────
 
 X = [random.randrange(lower, upper) for _ in range(size) ]
 Y = [td.f(X[i]) for i in range(size) ]
 
-s1, s2, s3 = round(size * split[0]), round(size * split[1]), round(size * split[2])
+s1, s2= round(size * split[0]), round(size * split[1])
+s3 = size - (s1 + s2)  # Ensure that s1 + s2 + s3 == size
 train = [X[:s1], Y[:s1]]
 validate = [X[s1:s1+s2], Y[s1:s1+s2]]
 test = [X[s1+s2:s1+s2+s3], Y[s1+s2:s1+s2+s3]]
@@ -138,12 +146,6 @@ for epoch in pbar:
     loss_history[epoch] = loss
     del_loss = loss - (0 if epoch == 0 else loss_history[epoch-1])
 
-    # ─── Output and Drawing ───────────────────────────────────────────────
-
-    pbar.set_description(f'Epoch = {epoch:5d}, loss = {loss:.3e}, Δloss = {del_loss:.3e}')  # Progress bar
-    plt.scatter(epoch+1, loss, color='blue')
-    plt.pause(0.001)  # Make the real-time plotting possible
-
     # ─── Save Parameters Bring Best Performance ───────────────────────────
 
     if loss_history[epoch] < loss_history[best_epoch]:
@@ -155,9 +157,16 @@ for epoch in pbar:
         best_w2_2 = w2_2
         best_b2 = b2
         best_epoch = epoch
-print(f'The minimum loss is at epoch {best_epoch}, its loss is {loss_history[best_epoch]}')  # TODO
-plt.show()
+    
+    # ─── Output and Drawing ───────────────────────────────────────────────
 
+    print() if debug else ()  # If in debug mode, display progress bar in a new line
+    pbar.set_description(f'Epoch = {epoch+1:5d}, loss = {loss:.3e}, Δloss = {del_loss:.3e}')
+    plt.scatter(epoch+1, loss, color='blue') if draw else ()
+    plt.pause(0.000001) if draw else ()  # plt.pause() makes the real-time plotting possible
+    time.sleep(duration)
+print(f'The minimum loss is at epoch {best_epoch+1}, its loss is {loss_history[best_epoch]:.3e}')
+plt.show() if draw else ()
 
 # ─── Testing ──────────────────────────────────────────────────────────────────
 
@@ -169,6 +178,6 @@ for x, y in zip(test[0], test[1]):
     a2 = w2_1 * a1_1 + w2_2 * a1_2 + b2
     y_hat = a2
     loss += 1/2 * (y_hat - y) ** 2
-loss /= s2  # == 1/2 MSE
+loss /= s3  # == 1/2 MSE
 
-print(f"Loss on the testing set: {loss}")
+print(f"Loss on the testing set: {loss:.3e}")

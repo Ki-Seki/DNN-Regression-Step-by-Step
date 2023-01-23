@@ -28,6 +28,8 @@ with a relatively lower ½ Mean Squared Error (MSE) Loss, that is $\mathcal{L}=\
 | $x_{i \_ j}$                        | `xi_j` | the ith weight/output of the jth layer |
 | $\partial{\mathcal{L}}/\partial{w}$ | `dw`   | (Partial) derivative                   |
 
+The notations follow the conventions in Andrew Ng's Machine Learning course.
+
 ## Version History
 
 | Version | Network Architecture  | Description                  |

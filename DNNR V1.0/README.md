@@ -103,7 +103,9 @@ $$
 The forward and backward propagation above is within one epoch. The parameters to be learned in this model will accumulate all the derivatives in every epoch and then be divided by the #epoch. Finally, use the fixed learning rate $\alpha$ to calculate the new parameters.
 
 $$
-\text{Let } \theta \in \{ w_1^{[1]}, w_2^{[1]}, w_1^{[2]}, w_2^{[2]}, b_1^{[1]}, b_2^{[1]}, b^{[2]} \} \\
-{d\ell \over d\theta} = {1 \over m}\sum_{i=1}^m{d\ell \over d\theta} \\
-\theta \coloneqq \theta - \alpha {d\ell \over d\theta}
+\begin{align*}
+&\text{Let } \theta \in \{ w_1^{[1]}, w_2^{[1]}, w_1^{[2]}, w_2^{[2]}, b_1^{[1]}, b_2^{[1]}, b^{[2]} \} \\
+&{d\ell \over d\theta} = {1 \over m}\sum_{i=1}^m{d\ell \over d\theta_i} \\
+&\theta \coloneqq \theta - \alpha {d\ell \over d\theta}
+\end{align*}
 $$

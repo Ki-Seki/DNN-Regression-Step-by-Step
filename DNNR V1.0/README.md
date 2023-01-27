@@ -6,16 +6,16 @@ Use the simplest approach to implement a DNN regression.
 
 ## Network Design
 
-[ ![DNNR V1.0 Architecture][svg-path] ][diagram-url]
+[ ![DNNR V1 Architecture][svg-path] ][diagram-url]
 
 Click the diagram to edit in diagrams.net
 
-[svg-path]: ./DNNR%20V1.0%20Architecture.drawio.svg
-[diagram-url]: https://app.diagrams.net/?src=about#Uhttps://raw.githubusercontent.com/Ki-Seki/DNN-Regression-Step-by-Step/master/DNNR%20V1.0/DNNR%20V1.0%20Architecture.drawio.svg
+[svg-path]: ./DNNR%20V1%20Architecture.drawio.svg
+[diagram-url]: https://app.diagrams.net/?src=about#Uhttps://raw.githubusercontent.com/Ki-Seki/DNN-Regression-Step-by-Step/master/DNNR%20V1/DNNR%20V1%20Architecture.drawio.svg
 
 ## Convention
 
-* No vector manipulation
+* Manipulation on scalars instead of vectors and matrixes
 * No OOP
 * Input is 1-dimensional
 

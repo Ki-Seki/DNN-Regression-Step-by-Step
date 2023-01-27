@@ -1,4 +1,4 @@
-# DNN Regression Version 1.0
+# DNN Regression Version 1
 
 ## Target
 
